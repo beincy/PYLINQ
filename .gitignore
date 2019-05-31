@@ -1,2 +1,8 @@
 
 \.vscode/
+
+dist/
+
+LINQ_cython\.egg-info/
+
+build/

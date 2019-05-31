@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='PYLINGQ',
+    name='LINQ-cython',
     version=0.1,
     description=(
-        '和c#一样使用方式的linq',
-        'the linq like c#'
+        '和c#一样使用方式的linq,并经使用cython进行加速',
+        'the linq like c#,and will speed up  by cython'
     ),
     long_description=open('README.rst','rb').read(),
     author='卞辉（beincy）',
