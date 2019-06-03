@@ -9,7 +9,7 @@ def main():
     ,{"name":"赵雪峰","age":50,"size":41}
     ,{"name":"姜坤","age":18,"size":42}
     ,{"name":"国豪","age":2,"size":41}]
-    a=PYLINQ(mylist).where(lambda x:x['age']>1).distinct(lambda t:t['age'])
+    a=PYLINQ(mylist).where(lambda x:x['age']>1).skip(4)
     print(a)
     # print(ujson.dumps(a,ensure_ascii=False,indent=4))
     for item in a:
