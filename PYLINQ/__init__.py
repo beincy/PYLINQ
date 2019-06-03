@@ -132,24 +132,24 @@ class PYLINQ:
         '''
         max of item
         '''
-        maxModel=None
+        maxModel = None
         for item in self:
             if maxModel is None:
-                maxModel=item
-            elif func(item) >func(maxModel):
-                maxModel=item
+                maxModel = item
+            elif func(item) > func(maxModel):
+                maxModel = item
         return maxModel
 
     def min(self, func=lambda x: x):
         '''
         max of item
         '''
-        maxModel=None
+        maxModel = None
         for item in self:
             if maxModel is None:
-                maxModel=item
+                maxModel = item
             elif func(item) < func(maxModel):
-                maxModel=item
+                maxModel = item
         return maxModel
 
     def forEach(self, func=lambda x: x):
@@ -160,6 +160,9 @@ class PYLINQ:
             for item in self:
                 yield func(item)
         return PYLINQ(_calculation())
+
+    def Distinct(self, func=lambda x: x):
+        return DistinctIterator(self, func)
 
 
 class WhereIterator(PYLINQ):
@@ -351,10 +354,7 @@ class GroupByItemIterator():
 
     @property
     def value(self):
-        if self.key in self._groupModel.grdoupCollection:
-            return PYLINQ(self._groupModel.grdoupCollection[self.key])
-        else:
-            return PYLINQ(self._forEachGroupItem())
+        return PYLINQ(self)
 
     def _forEachGroupItem(self):
         for item in self._groupModel.inerList:
@@ -365,4 +365,22 @@ class GroupByItemIterator():
                 self._groupModel.grdoupCollection[itemKey].append(item)
 
             if self.key == itemKey:
+                yield item
+
+
+class DistinctIterator(PYLINQ):
+    '''
+    Distinct 
+    '''
+
+    def __init__(self, array: list, keyFunc=lambda x: x):
+        super(DistinctIterator, self).__init__(array)
+        self._keyFunc = keyFunc
+
+    def __iter__(self):
+        itemDic = {}
+        for item in self._inerList:
+            itemKey = self._keyFunc(item)
+            if itemKey not in itemDic:
+                self._keyFunc[itemKey] = True
                 yield item
