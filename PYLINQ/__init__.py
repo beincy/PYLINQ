@@ -161,7 +161,7 @@ class PYLINQ:
                 yield func(item)
         return PYLINQ(_calculation())
 
-    def Distinct(self, func=lambda x: x):
+    def distinct(self, func=lambda x: x):
         return DistinctIterator(self, func)
 
 
@@ -329,8 +329,8 @@ class GroupByIterator():
         self.keyFunc = keyFunc
 
     def __iter__(self):
+        iremDir = {}
         for target in self.inerList:
-            iremDir = {}
             key = self.keyFunc(target)
             if key not in iremDir:
                 iremDir[key] = True
@@ -382,5 +382,5 @@ class DistinctIterator(PYLINQ):
         for item in self._inerList:
             itemKey = self._keyFunc(item)
             if itemKey not in itemDic:
-                self._keyFunc[itemKey] = True
+                itemDic[itemKey] = True
                 yield item
