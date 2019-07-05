@@ -321,12 +321,11 @@ class OrderIterator(PYLINQ):
 
 
 class GroupByIterator():
-    grdoupCollection = {}
-    inerList = None
 
     def __init__(self, array: list, keyFunc=lambda x: x):
         self.inerList = array
         self.keyFunc = keyFunc
+        self.grdoupCollection={}
 
     def __iter__(self):
         iremDir = {}
@@ -338,7 +337,6 @@ class GroupByIterator():
 
 
 class GroupByItemIterator():
-    key = None
 
     def __init__(self, key, groupModel):
         self.key = key
@@ -351,6 +349,7 @@ class GroupByItemIterator():
                 yield target
         else:
             yield from self._forEachGroupItem()
+
 
     @property
     def value(self):
