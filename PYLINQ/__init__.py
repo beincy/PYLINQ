@@ -1,6 +1,3 @@
-from operator import itemgetter, attrgetter
-
-
 class PYLINQ:
     _inerList = None
 
@@ -22,7 +19,7 @@ class PYLINQ:
 
     def where(self, func=lambda x: x):
         '''
-        func： return true for each item whicth want
+        func： return true for each item whitch want
         '''
         return WhereIterator(self, func)
 
@@ -156,9 +153,11 @@ class PYLINQ:
         '''
         Cyclic processing of each element
         '''
+
         def _calculation():
             for item in self:
                 yield func(item)
+
         return PYLINQ(_calculation())
 
     def distinct(self, func=lambda x: x):
@@ -284,13 +283,18 @@ class OrderIterator(PYLINQ):
         '''
         tmpList = []
         if len(self._keyFuncs) > 1:
+
             def orderKey(keyFuncs, model):
                 for kf in keyFuncs:
                     yield kf(model)
-            tmpList = sorted(self._inerList, key=lambda x: tuple([x for x in orderKey(self._keyFuncs, x)]),
-                             reverse=self._reverse)
+
+            tmpList = sorted(
+                self._inerList,
+                key=lambda x: tuple([x for x in orderKey(self._keyFuncs, x)]),
+                reverse=self._reverse)
         else:
-            tmpList = sorted(self._inerList, key=self._keyFunc,
+            tmpList = sorted(self._inerList,
+                             key=self._keyFunc,
                              reverse=self._reverse)
         for item in tmpList:
             yield item
@@ -299,11 +303,13 @@ class OrderIterator(PYLINQ):
         '''
         the next order by
         '''
+
         def orderFunc(model):
             v = keyFunc(model)
             if self._reverse and (isinstance(v, int) or isinstance(v, float)):
                 return -v
             return v
+
         self._keyFuncs.append(orderFunc)
         return self
 
@@ -311,11 +317,14 @@ class OrderIterator(PYLINQ):
         '''
         the next order by desc
         '''
+
         def descOrderFunc(model):
             v = keyFunc(model)
-            if not self._reverse and (isinstance(v, int) or isinstance(v, float)):
+            if not self._reverse and (isinstance(v, int)
+                                      or isinstance(v, float)):
                 return -v
             return v
+
         self._keyFuncs.append(descOrderFunc)
         return self
 
@@ -325,7 +334,7 @@ class GroupByIterator():
     def __init__(self, array: list, keyFunc=lambda x: x):
         self.inerList = array
         self.keyFunc = keyFunc
-        self.grdoupCollection={}
+        self.grdoupCollection = {}
 
     def __iter__(self):
         iremDir = {}
@@ -340,7 +349,7 @@ class GroupByItemIterator():
 
     def __init__(self, key, groupModel):
         self.key = key
-        self._groupModel = groupModel
+        self._groupModel: GroupByIterator = groupModel
 
     def __iter__(self):
         if self.key in self._groupModel.grdoupCollection:
@@ -349,7 +358,6 @@ class GroupByItemIterator():
                 yield target
         else:
             yield from self._forEachGroupItem()
-
 
     @property
     def value(self):
@@ -369,7 +377,7 @@ class GroupByItemIterator():
 
 class DistinctIterator(PYLINQ):
     '''
-    Distinct 
+    Distinct
     '''
 
     def __init__(self, array: list, keyFunc=lambda x: x):
@@ -377,9 +385,9 @@ class DistinctIterator(PYLINQ):
         self._keyFunc = keyFunc
 
     def __iter__(self):
-        itemDic = {}
+        itemSet = set()
         for item in self._inerList:
             itemKey = self._keyFunc(item)
-            if itemKey not in itemDic:
-                itemDic[itemKey] = True
+            if itemKey not in itemSet:
+                itemSet.add(itemKey)
                 yield item

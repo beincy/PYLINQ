@@ -3,11 +3,9 @@ from setuptools import setup, find_packages
 setup(
     name='LINQ-cython',
     version="0.2.3",
-    description=(
-        '和c#一样使用方式的linq,并经使用cython进行加速',
-        'the linq like c#,and will speed up  by cython'
-    ),
-    long_description=open('README.rst','rb').read(),
+    description=('和c#一样使用方式的linq',
+                 'the linq like c#,and will speed up  by cython'),
+    long_description=open('README.rst', 'rb').read(),
     author='卞辉（beincy）',
     author_email='bianhui0524@sina.com',
     maintainer='卞辉(beincy)',
