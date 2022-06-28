@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='LINQ-cython',
-    version="0.2.3",
+    version="0.2.4",
     description=('和c#一样使用方式的linq',
                  'the linq like c#,and will speed up  by cython'),
     long_description=open('README.rst', 'rb').read(),
